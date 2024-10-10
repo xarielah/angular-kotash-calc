@@ -1,13 +1,28 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { CalculateActionComponent } from './components/calculate-action/calculate-action.component';
+import { ConsumptionInputComponent } from './components/consumption-input/consumption-input.component';
+import { RateInputComponent } from './components/rate-input/rate-input.component';
+import { RatesService } from './rates.service';
+import { NoticeComponent } from './shared/notice/notice.component';
+import { LocalStorageService } from './utils/localstorage.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [
+    NoticeComponent,
+    ConsumptionInputComponent,
+    RateInputComponent,
+    CalculateActionComponent,
+  ],
+  providers: [LocalStorageService],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'cost-calc';
+  private ratesService = inject(RatesService);
+  localService = inject(LocalStorageService);
+
+  get totalCost() {
+    return this.ratesService.totalCost.toFixed(2);
+  }
 }

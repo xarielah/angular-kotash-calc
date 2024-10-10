@@ -1,0 +1,13 @@
+<div class="flex gap-3 md:flex-row flex-col" *ngIf="editConsumption; else finalValue">
+    <input required pattern="^\d.+$" [value]="consumptionInput.control.value" placeholder='צריכה בקוט"ש'
+        class="input shadow" [(ngModel)]="consumption" #consumptionInput="ngModel" />
+    <button (click)="saveConsumption()" [disabled]="consumptionInput.errors" class="button shadow">שמירה</button>
+    <button class="button bg-red-500" *ngIf="editingExistingValue" (click)="onCancelEditExisting()">ביטול</button>
+    <app-field-error *ngIf="consumptionInput.errors?.['pattern']">חייב להזין מספרים בלבד</app-field-error>
+</div>
+<ng-template #finalValue>
+    <div class="flex items-center justify-between">
+        <span class="font-bold text-4xl">{{localeConsumption}} קוט"ש</span>
+        <button (click)="setEditConsumption(true)">עריכה</button>
+    </div>
+</ng-template>
