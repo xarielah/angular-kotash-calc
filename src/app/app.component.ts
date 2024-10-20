@@ -20,7 +20,20 @@ import { LocalStorageService } from './utils/localstorage.service';
 })
 export class AppComponent {
   private ratesService = inject(RatesService);
-  localService = inject(LocalStorageService);
+  validRate = false;
+  validConsumption = false;
+
+  setRateValidity(val: boolean) {
+    this.validRate = val;
+  }
+
+  setConsumptionValidity(val: boolean) {
+    this.validConsumption = val;
+  }
+
+  get bothInputsAreValid() {
+    return this.validConsumption && this.validRate;
+  }
 
   get totalCost() {
     return this.ratesService.totalCost.toFixed(2);

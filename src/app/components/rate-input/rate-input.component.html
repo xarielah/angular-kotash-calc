@@ -1,9 +1,9 @@
-<div class="flex gap-3 md:flex-row flex-col" *ngIf="editMode;else finalValue">
+<div class="flex gap-3 flex-col" *ngIf="editMode;else finalValue">
     <input [(ngModel)]="rate" pattern="^\d.+$" #rateInput="ngModel" required placeholder="תעריף באגורות"
         class="input shadow" />
+    <app-field-error *ngIf="rateInput.errors?.['pattern']">חייב להזין מספרים בלבד</app-field-error>
     <button (click)="saveRate()" class="button shadow" [disabled]="rateInput.errors">שמירה</button>
     <button class="button bg-red-500" *ngIf="editingExistingValue" (click)="onCancelEditExisting()">ביטול</button>
-    <app-field-error *ngIf="rateInput.errors?.['pattern']">חייב להזין מספרים בלבד</app-field-error>
 </div>
 <ng-template #finalValue>
     <div class="flex items-center justify-between">

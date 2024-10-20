@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { RatesService } from '../../rates.service';
 
 @Component({
@@ -10,6 +10,7 @@ import { RatesService } from '../../rates.service';
 })
 export class CalculateActionComponent {
   private ratesService = inject(RatesService);
+  @Input({ required: true }) disabled!: boolean;
   clicked = false;
 
   calculate(): void {
