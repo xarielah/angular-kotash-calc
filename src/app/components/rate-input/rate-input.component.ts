@@ -1,9 +1,10 @@
 import { NgIf } from '@angular/common';
-import { Component, inject, output } from '@angular/core';
+import { Component, inject, OnInit, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RatesService } from '../../rates.service';
 import { FieldErrorComponent } from '../../shared/field-error/field-error.component';
 import { EditComponent } from '../../shared/icons/edit.component';
+import { LocalStorageService } from '../../utils/localstorage.service';
 
 @Component({
   selector: 'app-rate-input',
@@ -11,15 +12,25 @@ import { EditComponent } from '../../shared/icons/edit.component';
   standalone: true,
   imports: [FormsModule, EditComponent, FieldErrorComponent, NgIf],
 })
-export class RateInputComponent {
+export class RateInputComponent implements OnInit {
   private ratesService = inject(RatesService);
+  private cacheService = inject(LocalStorageService);
   state = output<boolean>();
   editMode = !this.ratesService.rate;
   rate = this.ratesService.rate;
   editingExistingValue = false;
 
+  ngOnInit(): void {
+    const lastRate = this.cacheService.getLastRate();
+    if (lastRate !== undefined && lastRate !== null) {
+      this.rate = lastRate.toString();
+      this.saveRate();
+    }
+  }
+
   saveRate(): void {
     this.ratesService.setRate(this.rate);
+    this.cacheService.setLastRate(this.rate);
     this.setEditMode(false);
     this.state.emit(true);
   }

@@ -6,31 +6,37 @@ export class LocalStorageService {
   private rateKey: string = 'last-rate';
   private consumptionKey: string = 'last-consumption';
 
-  getLastRate(): number {
+  isNumber(value: string | null): boolean {
+    return !!value && !isNaN(parseFloat(value)) && value.trim() !== '';
+  }
+
+  getLastRate(): string {
     const num = this.storage.getItem(this.rateKey);
-    if (!num || isNaN(+num)) {
-      return 0;
+    if (!this.isNumber(num)) {
+      return '';
     }
-    return +num;
+    return num!;
   }
 
-  setLastRate(rate: number): void {
-    if (!Number.isNaN(+rate)) {
-      this.storage.setItem(this.rateKey, rate.toString());
+  getLastConsumption(): string {
+    const stringConsumption = this.storage.getItem(this.consumptionKey);
+    if (!this.isNumber(stringConsumption)) {
+      return '';
     }
+    return stringConsumption!;
   }
 
-  getLastConsumption(): number {
-    const num = this.storage.getItem(this.consumptionKey);
-    if (!num || isNaN(+num)) {
-      return 0;
-    }
-    return +num;
+  setLastRate(rate: number | string): void {
+    const stringRate = rate.toString();
+    if (!this.isNumber(stringRate))
+      throw new Error(`Invalid rate ${stringRate}`);
+    this.storage.setItem(this.rateKey, rate.toString());
   }
 
-  setLastConsumption(consumption: number): void {
-    if (!Number.isNaN(+consumption)) {
-      this.storage.setItem(this.consumptionKey, consumption.toString());
-    }
+  setLastConsumption(consumption: number | string): void {
+    const stringConsumption = consumption.toString();
+    if (!this.isNumber(stringConsumption))
+      throw new Error(`Invalid consumption ${stringConsumption}`);
+    this.storage.setItem(this.consumptionKey, stringConsumption);
   }
 }

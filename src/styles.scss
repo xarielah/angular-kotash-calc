@@ -7,11 +7,15 @@ body {
     font-family: "Alef", sans-serif;
     font-weight: 400;
     font-style: normal;
-    @apply bg-gradient-to-t from-[#FFAD60] to-[#FFD09B] min-h-screen w-screen text-slate-700;
+    @apply min-h-screen w-screen text-slate-700;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    @apply text-orange-500 border-b-2 border-orange-600/20;
 }
 
 .container {
-    @apply bg-gray-50/50 rounded-3xl p-8;
+    @apply bg-gray-100 rounded-3xl p-8;
 }
 
 .shadow {
@@ -51,5 +55,5 @@ h6 {
 }
 
 .input {
-    @apply bg-gray-50/70 text-2xl rounded-xl py-2 px-6 w-full;
+    @apply bg-gray-50/70 text-2xl rounded-xl py-2 px-6 w-full shadow-lg border-[2px];
 }
